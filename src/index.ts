@@ -94,8 +94,10 @@ function publishChange(change: Change): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  console.log('Fetching current budget state')
   let [lastKnowledge, state] = await fetchInitial()
 
+  console.log(`Checking for changes every ${POLL_SECONDS} seconds`)
   while (true) {
     await sleep(POLL_SECONDS * 1000)
     const [newKnowledge, delta] = await fetchDelta(lastKnowledge)
@@ -107,9 +109,9 @@ async function main(): Promise<void> {
       for (const { current, next } of categoryChanges) {
         const changes = generateChanges(current, next)
 
-        if (changes.length > 1) {
-          console.log(changes)
-        }
+        changes
+          .map(c => `${c.category} ${c.field} changed from ${c.old} to ${c.current}`)
+          .forEach(msg => console.log(msg))
 
         await Promise.all(changes.map(publishChange))
       }
