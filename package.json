@@ -1,0 +1,36 @@
+{
+  "name": "ynab-log",
+  "version": "1.0.0",
+  "description": "Log of YNAB activity",
+  "main": "index.js",
+  "scripts": {
+    "watch": "concurrently npm:watch-tsc npm:watch-node",
+    "watch-tsc": "tsc -w",
+    "watch-node": "nodemon dist/index.js",
+    "test": "echo \"No tests yet\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidpadbury/ynab-log.git"
+  },
+  "keywords": [
+    "ynab"
+  ],
+  "author": "David Padbury <david@davidpadbury.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidpadbury/ynab-log/issues"
+  },
+  "homepage": "https://github.com/davidpadbury/ynab-log#readme",
+  "devDependencies": {
+    "@types/got": "^9.4.1",
+    "@types/node": "^11.11.6",
+    "concurrently": "^4.1.0",
+    "got": "^9.6.0",
+    "nodemon": "^1.18.10",
+    "typescript": "^3.3.4000"
+  },
+  "dependencies": {
+    "mqtt": "^2.18.8"
+  }
+}
