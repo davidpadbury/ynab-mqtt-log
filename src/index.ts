@@ -19,6 +19,12 @@ const ynabClient = got.extend({
 
 const mqttClient = mqtt.connect(MQTT)
 
+mqttClient.on('connect', () => console.log(`Connected to ${MQTT}`))
+mqttClient.on('error', err => {
+  console.error('MQTT error', err)
+  process.exit(1)
+})
+
 function createYnabResult(response: any): YnabResult {
   const data = response.body.data
   return [data.server_knowledge, data]
