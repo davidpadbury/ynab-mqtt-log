@@ -1,7 +1,7 @@
 {
-  "name": "ynab-log",
+  "name": "ynab-mqtt-log",
   "version": "0.0.1",
-  "description": "Log of YNAB activity",
+  "description": "Log YNAB activity to MQTT",
   "main": "index.js",
   "scripts": {
     "start": "npm run build && node dist/index.js",
@@ -25,14 +25,14 @@
   },
   "homepage": "https://github.com/davidpadbury/ynab-log#readme",
   "devDependencies": {
-    "@types/got": "^9.4.1",
-    "@types/node": "^11.11.6",
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.10"
   },
   "dependencies": {
-    "typescript": "^3.3.4000",
+    "@types/got": "^9.4.1",
+    "@types/node": "^11.11.6",
     "got": "^9.6.0",
+    "typescript": "^3.3.4000",
     "mqtt": "^2.18.8"
   }
 }

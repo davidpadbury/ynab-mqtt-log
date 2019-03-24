@@ -5,7 +5,7 @@ const TOKEN: string = env('YNAB_TOKEN')
 const POLL_SECONDS: number = parseInt(process.env['POLL_SECONDS'] || '20', 10)
 const BUDGET_ID: string = env('BUDGET_ID')
 const MQTT: string = env('MQTT')
-const TOPIC: string = process.env('TOPIC') || 'ynab/changes'
+const TOPIC: string = process.env['TOPIC'] || 'ynab/changes'
 
 type YnabResult = [string, any]
 
