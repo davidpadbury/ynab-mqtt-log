@@ -5,6 +5,7 @@ const TOKEN: string = env('YNAB_TOKEN')
 const POLL_SECONDS: number = parseInt(process.env['POLL_SECONDS'] || '20', 10)
 const BUDGET_ID: string = env('BUDGET_ID')
 const MQTT: string = env('MQTT')
+const TOPIC: string = process.env('TOPIC') || 'ynab/changes'
 
 type YnabResult = [string, any]
 
@@ -89,7 +90,7 @@ function generateChanges(current: any, next: any): Array<Change> {
 
 function publishChange(change: Change): Promise<void> {
   return new Promise((resolve, reject) => {
-    mqttClient.publish('ynab/changes', JSON.stringify(change, null, 2), {}, (err) => err ? reject(err) : resolve())
+    mqttClient.publish(TOPIC, JSON.stringify(change, null, 2), {}, (err) => err ? reject(err) : resolve())
   })
 }
 

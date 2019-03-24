@@ -10,3 +10,4 @@ Configured with environment variables.
  - **`BUDGET_ID`**: identifier for the budget to follow (visible in the address bar when in YNAB)
  - **`MQTT`**: [url to MQTT broker](https://www.npmjs.com/package/mqtt#connect)
  - **`POLL_SECONDS`**: how often to check YNAB for changes. Defaults to 20 seconds.
+ - **`TOPIC`**: mqtt topic to publish changes. Defaults to `ynab/changes`.
