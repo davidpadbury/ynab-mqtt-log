@@ -67,31 +67,19 @@ function matchItems(oldItems: Array<any>, deltaItems: Array<any>): Array<Matched
 
 interface Change {
   readonly category: string
-  readonly field: string
-  readonly old: any
-  readonly current: any
+  readonly remainingBalance: number
+  readonly change: number
 }
 
-function generateChanges(current: any, next: any): Array<Change> {
-  return [ 'budgeted', 'activity', 'balance' ]
-    .map(prop => {
-      const currentValue = current[prop]
-      const nextValue = next[prop]
-      const changed = currentValue != nextValue
+function detectChange(current: any, next: any): Change | null {
+  const currentBalance = current.balance
+  const nextBalance = next.balance
 
-      if (!changed) return null
-
-      // update the category
-      current[prop] = nextValue
-
-      return {
-        category: current.name,
-        field: prop,
-        old: currentValue,
-        current: nextValue
-      }
-    })
-    .filter(item => !!item)
+  return currentBalance !== nextBalance ? {
+    category: current.name,
+    remainingBalance: nextBalance,
+    change: nextBalance - currentBalance
+  } : null
 }
 
 function publishChange(change: Change): Promise<void> {
@@ -114,13 +102,14 @@ async function main(): Promise<void> {
       const categoryChanges = matchItems(group.current.categories, group.next.categories)
 
       for (const { current, next } of categoryChanges) {
-        const changes = generateChanges(current, next)
+        const change = detectChange(current, next)
 
-        changes
-          .map(c => `${c.category} ${c.field} changed from ${c.old} to ${c.current}`)
-          .forEach(msg => console.log(msg))
-
-        await Promise.all(changes.map(publishChange))
+        if (change) {
+          const direction = change.change > 0 ? 'increased' : 'decreased'
+          const message = `${change.category} ${direction} by ${change.change}. ${change.remainingBalance} remaining.`
+          console.log(message)
+          await publishChange(change)
+        }
       }
     }
 
